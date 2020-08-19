@@ -7,7 +7,9 @@ public class PlayerMovementController : MonoBehaviour, IMove
     [SerializeField]
     private float moveSpeed = 2;
     [SerializeField]
-    private float jumpForce = 400;
+    private float jumpForce = 600;
+    [SerializeField]
+    private float wallJumpForce = 300;
 
     private new Rigidbody2D rigidbody2D;
     private CharacterGrounding characterGrounding;
@@ -29,7 +31,11 @@ public class PlayerMovementController : MonoBehaviour, IMove
         if (Input.GetButtonDown("Fire1") && characterGrounding.IsGrounded)
         {
             rigidbody2D.AddForce(Vector2.up * jumpForce);
-            //audioSource.Play();
+
+            if (characterGrounding.GroundedDirection != Vector2.down)
+            {
+                rigidbody2D.AddForce(characterGrounding.GroundedDirection * -1f * wallJumpForce);
+            }
         }
     }
 

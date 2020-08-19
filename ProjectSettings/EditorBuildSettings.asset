@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Robot.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Menu.unity
+    guid: 808553a185af20441affa63b35514cf6
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: aa282d5e8b0ee4a4b93347358e52b750
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 9f83c62f0511d9c42836e16be93a2e15
   m_configObjects: {}

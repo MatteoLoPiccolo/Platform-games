@@ -4,10 +4,7 @@ using UnityEngine;
 public class CharacterGrounding : MonoBehaviour
 {
     [SerializeField]
-    private Transform leftFoot;
-
-    [SerializeField]
-    private Transform rightFoot;
+    private Transform[] positions;
 
     [SerializeField]
     private float maxDistance;
@@ -18,14 +15,17 @@ public class CharacterGrounding : MonoBehaviour
     private Transform groundedObject;
     private Vector3? groundedObjectLastPosition;
     public bool IsGrounded { get; private set; }
+    public Vector2 GroundedDirection { get; private set; }
 
     // Update is called once per frame
     void Update()
     {
-        CheckFootForGrounding(leftFoot);
-
-        if (IsGrounded == false)
-            CheckFootForGrounding(rightFoot);
+        foreach (var position in positions)
+        {
+            CheckFootForGrounding(position);
+            if (IsGrounded)
+                break;
+        }
 
         StickToMovingObjects();
     }
@@ -50,13 +50,18 @@ public class CharacterGrounding : MonoBehaviour
 
     private void CheckFootForGrounding(Transform foot)
     {
-        var raycastHit = Physics2D.Raycast(foot.position, Vector2.down, maxDistance, layerMask);
-        Debug.DrawRay(foot.position, Vector3.down * maxDistance, Color.red);
+        var raycastHit = Physics2D.Raycast(foot.position, foot.forward, maxDistance, layerMask);
+        Debug.DrawRay(foot.position, foot.forward * maxDistance, Color.red);
 
         if (raycastHit.collider != null)
         {
+            if (groundedObject != raycastHit.collider.transform)
+            {
+                groundedObjectLastPosition = raycastHit.collider.transform.position;
+            }
             groundedObject = raycastHit.collider.transform;
             IsGrounded = true;
+            GroundedDirection = foot.forward;
         }
         else
         {

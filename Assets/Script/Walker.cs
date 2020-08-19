@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Walker : MonoBehaviour
+public class Walker : MonoBehaviour, ITakeShellHits
 {
     [SerializeField]
     private float speed = 1f;
@@ -76,8 +76,8 @@ public class Walker : MonoBehaviour
     private float GetForwardX()
     {
         return direction.x == -1 ?
-                    collider.bounds.min.x - 0.1f :
-                    collider.bounds.max.x + 0.1f;
+               collider.bounds.min.x - 0.1f :
+               collider.bounds.max.x + 0.1f;
     }
 
     private void SwitchDirection()
@@ -107,6 +107,11 @@ public class Walker : MonoBehaviour
         playerMovementController.Bounce();
 
 
+        Destroy(gameObject);
+    }
+
+    public void HandleShellHit(ShellFlipped shellFlipped)
+    {
         Destroy(gameObject);
     }
 }
